@@ -10,6 +10,8 @@ import com.tip.lunchbox.model.CategoryResponse;
 import com.tip.lunchbox.model.GeocodeResponse;
 import com.tip.lunchbox.model.SearchResponse;
 
+import java.io.IOException;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
@@ -26,6 +28,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<GeocodeResponse> restaurantLiveData = new MutableLiveData<>();
     private MutableLiveData<CategoryResponse> categoriesLiveData = new MutableLiveData<>();
     private MutableLiveData<SearchResponse> filteredRestaurantLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isError = new MutableLiveData<>();
 
     public LiveData<CategoryResponse> getCategoriesLiveData() {
         // Since list of categories will rarely change, previous data is used as much is possible
@@ -38,6 +41,10 @@ public class HomeViewModel extends ViewModel {
     public LiveData<GeocodeResponse> getRestaurantLiveData() {
         fetchRestaurantLiveData(1.1, 1.1);
         return restaurantLiveData;
+    }
+
+    public LiveData<Boolean> getIsErrorLiveData() {
+        return isError;
     }
 
     public LiveData<SearchResponse> getFilteredLiveData() {
@@ -65,7 +72,7 @@ public class HomeViewModel extends ViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable error) {
-
+                        isError.postValue(true);
                     }
                 });
     }
@@ -91,7 +98,7 @@ public class HomeViewModel extends ViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable error) {
-
+                        isError.postValue(true);
                     }
                 });
 
@@ -100,7 +107,7 @@ public class HomeViewModel extends ViewModel {
     public void fetchFilteredRestaurantData(Integer categoryId) {
         repository.getSearchResponseObservable(new SearchQuery().addCategory(categoryId)
                 .addGeoLocation(18.5, 73.8))
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .subscribe(new SingleObserver<SearchResponse>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable disposable) {
@@ -114,7 +121,7 @@ public class HomeViewModel extends ViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable error) {
-
+                        isError.postValue(true);
                     }
                 });
     }

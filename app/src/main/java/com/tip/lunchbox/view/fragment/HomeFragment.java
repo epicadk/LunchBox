@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     .getRestaurant().getId());
             requireActivity().startActivity(intent);
         });
-
+        onError();
         BottomSheetBehavior.from(homeBinding.nsvRestaurantList);
         homeBinding.rvRestaurant.setLayoutManager(new LinearLayoutManager(getActivity()));
         homeBinding.rvRestaurant.setAdapter(adapter);
@@ -109,13 +109,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         homeBinding.rvRestaurant.setVisibility(View.VISIBLE);
     }
 
+    private void onError() {
+        viewModel.getIsErrorLiveData().observe(getViewLifecycleOwner(), aBoolean -> {
+            if (aBoolean) {
+                showErrorView();
+            } else {
+                showData();
+            }
+        });
+    }
+
     private void loadData() {
         showLoadingView();
         viewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categoryResponse -> {
             if (categoryResponse != null) {
                 List<CategoryContainer> categories = categoryResponse.getCategories();
                 for (CategoryContainer categoryContainer : categories) {
-                    Chip categoryChip = (Chip)(getLayoutInflater()
+                    Chip categoryChip = (Chip) (getLayoutInflater()
                             .inflate(R.layout.item_chip_category, homeBinding.filterChipGroup,
                                     false));
                     categoryChip.setText(categoryContainer.getCategories().getName());
