@@ -75,6 +75,7 @@ public class RestaurantAdapter extends
             restaurantItemBinding.itemTvRestaurantName.setText(restaurant.getName());
             Glide.with(restaurantItemBinding.getRoot())
                     .load(restaurant.getThumb())
+                    .error(R.drawable.ic_image_not_found)
                     .centerCrop()
                     .into(restaurantItemBinding.itemIvRestaurant);
             restaurantItemBinding.itemTvRating.setText(
