@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".view.activity.RestaurantDetails">
+    tools:context=".view.fragment.RestaurantDetails">
     
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

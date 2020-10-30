@@ -1,7 +1,6 @@
 package com.tip.lunchbox.view.fragment;
 
 import android.animation.Animator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +27,6 @@ import com.tip.lunchbox.databinding.FragmentHomeBinding;
 import com.tip.lunchbox.model.CategoryContainer;
 import com.tip.lunchbox.model.Restaurant;
 import com.tip.lunchbox.model.RestaurantContainer;
-import com.tip.lunchbox.utilities.Constants;
-import com.tip.lunchbox.view.activity.RestaurantDetails;
 import com.tip.lunchbox.view.listeners.CategoryChangeListener;
 import com.tip.lunchbox.view.adapter.RestaurantAdapter;
 import com.tip.lunchbox.view.listeners.RecyclerTouchListener;
@@ -39,7 +36,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -74,10 +70,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         adapter = new RestaurantAdapter(getActivity());
 
         new RecyclerTouchListener(getActivity(), homeBinding.rvRestaurant, (view, position) -> {
-            Intent intent = new Intent(getContext(), RestaurantDetails.class);
-            intent.putExtra(Constants.INTENT_RES_ID, adapter.getData().get(position)
-                    .getRestaurant().getId());
-            requireActivity().startActivity(intent);
+            HomeFragmentDirections.ActionHomeFragmentToRestaurantDetails action =
+                    HomeFragmentDirections.actionHomeFragmentToRestaurantDetails(
+                    Integer.parseInt(adapter.getData().get(position)
+                            .getRestaurant().getId()));
+
+            NavHostFragment.findNavController(this).navigate(action);
         });
         onError();
         BottomSheetBehavior.from(homeBinding.nsvRestaurantList);
@@ -181,8 +179,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 showData();
 
                 homeBinding.appBarTvLocation.setText(geoCodeResponse.getLocality().getTitle()
-                                + ", "
-                                + geoCodeResponse.getLocality().getCityName());
+                        + ", "
+                        + geoCodeResponse.getLocality().getCityName());
                 setMapMarkers(geoCodeResponse.getNearbyRestaurantContainers());
             } else {
                 showErrorView();

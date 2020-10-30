@@ -9,18 +9,53 @@
         android:id="@+id/homeFragment"
         android:name="com.tip.lunchbox.view.fragment.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_restaurantDetails"
+            app:destination="@id/restaurantDetails" />
+    </fragment>
 
     <fragment
         android:id="@+id/serachFragment"
         android:name="com.tip.lunchbox.view.fragment.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_serachFragment_to_collectionDetails"
+            app:destination="@id/collectionDetails" />
+        <action
+            android:id="@+id/action_serachFragment_to_restaurantDetails"
+            app:destination="@id/restaurantDetails" />
+    </fragment>
 
     <fragment
         android:id="@+id/foodFragment"
         android:name="com.tip.lunchbox.view.fragment.FoodFragment"
         android:label="Food"
         tools:layout="@layout/fragment_food"/>
+    <fragment
+        android:id="@+id/collectionDetails"
+        android:name="com.tip.lunchbox.view.fragment.CollectionDetails"
+        android:label="activity_collection_details"
+        tools:layout="@layout/fragment_collection_details" >
+        <argument
+            android:name="collectionID"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_collectionDetails_to_restaurantDetails"
+            app:destination="@id/restaurantDetails" />
+        <argument
+            android:name="collectionName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantDetails"
+        android:name="com.tip.lunchbox.view.fragment.RestaurantDetails"
+        android:label="activity_restaurant_details"
+        tools:layout="@layout/fragment_restaurant_details" >
+        <argument
+            android:name="resId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

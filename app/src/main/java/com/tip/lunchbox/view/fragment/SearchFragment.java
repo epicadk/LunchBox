@@ -1,6 +1,5 @@
 package com.tip.lunchbox.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +9,11 @@ import android.view.ViewGroup;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 
 import com.tip.lunchbox.databinding.FragmentSearchBinding;
-import com.tip.lunchbox.utilities.Constants;
-import com.tip.lunchbox.view.activity.CollectionDetails;
-import com.tip.lunchbox.view.activity.RestaurantDetails;
 import com.tip.lunchbox.view.adapter.CollectionsAdapter;
 import com.tip.lunchbox.view.adapter.RestaurantAdapter;
 import com.tip.lunchbox.view.listeners.RecyclerTouchListener;
@@ -87,21 +84,22 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         // Setting up on item click action
         new RecyclerTouchListener(getActivity(), binding.rvSearch, (view, position) -> {
-            Intent intent = new Intent(getContext(), RestaurantDetails.class);
-            intent.putExtra(Constants.INTENT_RES_ID, searchAdapter.getData().get(position)
+            int resId =  Integer.parseInt(searchAdapter.getData().get(position)
                     .getRestaurant().getId());
-            requireActivity().startActivity(intent);
+            SearchFragmentDirections.ActionSerachFragmentToRestaurantDetails action =
+                    SearchFragmentDirections.actionSerachFragmentToRestaurantDetails(resId);
+            NavHostFragment.findNavController(this).navigate(action);
         });
 
         new RecyclerTouchListener(getActivity(), binding.rvCollections, (view, position) -> {
-            Intent intent = new Intent(getActivity(), CollectionDetails.class);
-            intent.putExtra(Constants.INTENT_COLLECTION_ID,
-                    collectionsAdapter.getData()
-                            .get(position).getCollection().getCollectionId());
-
-            intent.putExtra(Constants.INTENT_COLLECTION_NAME, collectionsAdapter.getData()
-                    .get(position).getCollection().getTitle());
-            requireActivity().startActivity(intent);
+            int collectionId = collectionsAdapter.getData()
+                    .get(position).getCollection().getCollectionId();
+            String collectionName = collectionsAdapter.getData()
+                    .get(position).getCollection().getTitle();
+            SearchFragmentDirections.ActionSerachFragmentToCollectionDetails action =
+                    SearchFragmentDirections
+                    .actionSerachFragmentToCollectionDetails(collectionId, collectionName);
+            NavHostFragment.findNavController(this).navigate(action);
         });
     }
 

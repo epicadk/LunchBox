@@ -1,9 +1,13 @@
 package com.tip.lunchbox.view.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -24,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
         //Setting navController
         NavController navController = Navigation.findNavController(this,
                 R.id.navigation_host_fragment);
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.restaurantDetails
+                    || destination.getId() == R.id.collectionDetails) {
+                mainBinding.mainActivityBn.setVisibility(View.GONE);
+            } else {
+                mainBinding.mainActivityBn.setVisibility(View.VISIBLE);
+            }
+        });
         NavigationUI.setupWithNavController(mainBinding.mainActivityBn, navController);
     }
 

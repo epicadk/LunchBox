@@ -43,15 +43,8 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".view.activity.RestaurantDetails"
-            android:theme="@style/AppTheme" />
-
-        <activity
             android:name=".view.activity.MenuActivity"
             android:theme="@style/AppTheme" />
-
-        <activity
-            android:name=".view.activity.CollectionDetails" />
 
     </application>
 
