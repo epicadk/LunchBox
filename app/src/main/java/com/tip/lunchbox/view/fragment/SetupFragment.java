@@ -39,6 +39,10 @@ public class SetupFragment extends BottomSheetDialogFragment implements View.OnC
         binding = FragmentSetupBinding.inflate(inflater, container, false);
         binding.chipProceed.setOnClickListener(this);
         binding.cbLocation.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                getLocationPermission();
+            }
+
             if (isChecked && getActivity() != null) {
                 LocationHelper.getLocation(getActivity());
             }
@@ -100,4 +104,9 @@ public class SetupFragment extends BottomSheetDialogFragment implements View.OnC
         SharedPreferencesUtil.setBooleanPreference(activity, Constants.PREF_FIRST_TIME, false);
     }
 
+    public void getLocationPermission() {
+        PermissionHelper
+                .requestPermission(requireActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION,100);
+    }
 }

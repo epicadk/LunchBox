@@ -31,14 +31,25 @@ public class PermissionHelper {
     public static void requestPermission(Context context, String permission, int permissionCode) {
         if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
                 permission)) {
-            // Can ask user for permission
-            ActivityCompat.requestPermissions(
-                    (Activity) context,
-                    new String[]{permission},
-                    permissionCode);
+            // Can ask user for permission (he/she has denied but not clicked do not ask again)
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+            alertDialogBuilder.setTitle(R.string.permission_needed_title);
+            alertDialogBuilder.setMessage(R.string.permission_needed_message);
+            alertDialogBuilder.setPositiveButton("Okay", (dialogInterface, i) ->
+                    ActivityCompat.requestPermissions(
+                            (Activity) context,
+                            new String[]{permission},
+                            permissionCode));
+            alertDialogBuilder.setNegativeButton(R.string.cancel, (dialogInterface, i) ->
+                    Log.d(TAG, "permission cancelled"));
+            AlertDialog dialog = alertDialogBuilder.create();
+            dialog.show();
+
         } else {
             boolean userAskedPermissionBefore =
-                    SharedPreferencesUtil.getBooleanPreference(context, permission, false);
+                    SharedPreferencesUtil.getBooleanPreference(context,
+                            permission, false);
 
             if (userAskedPermissionBefore) {
                 // If User was asked permission before and denied
@@ -53,7 +64,7 @@ public class PermissionHelper {
                             Uri uri = Uri.fromParts(
                                     "package", context.getPackageName(), null);
                             intent.setData(uri);
-                            ((Activity)context).startActivity(intent);
+                            ((Activity) context).startActivity(intent);
                         });
                 alertDialogBuilder.setNegativeButton(
                         R.string.cancel, (dialogInterface, i) ->
