@@ -1,9 +1,8 @@
 package com.tip.lunchbox.model.server.response;
 
-import com.google.gson.annotations.Expose;
-
+// Required for Moshi
+@SuppressWarnings("unused")
 public class FavouriteRestaurantsResponse {
-    @Expose
     private Integer[] result;
 
     public Integer[] getResult() {

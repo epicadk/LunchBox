@@ -1,19 +1,17 @@
 package com.tip.lunchbox.model.server.response;
 
-import com.google.gson.annotations.Expose;
-
+// Required for Moshi
+@SuppressWarnings("unused")
 //Response for both signup and login endpoints
 public class Tokens {
-    @Expose
-    private String authToken;
-    @Expose
-    private String refreshToken;
+    private String auth_token;
+    private String refresh_token;
 
     public String getAuthToken() {
-        return authToken;
+        return auth_token;
     }
 
     public String getRefreshToken() {
-        return refreshToken;
+        return refresh_token;
     }
 }

@@ -1,5 +1,7 @@
 package com.tip.lunchbox.data.zomato;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -27,11 +29,11 @@ public class ZomatoApiManager {
     private static OkHttpClient getOkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         return new OkHttpClient()
                 .newBuilder()
                 .addInterceptor(new ZomatoApiInterceptor())
                 .addInterceptor(logging)
+                .readTimeout(5, TimeUnit.SECONDS)
                 .build();
     }
 

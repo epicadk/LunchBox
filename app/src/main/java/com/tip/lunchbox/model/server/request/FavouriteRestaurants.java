@@ -1,16 +1,14 @@
 package com.tip.lunchbox.model.server.request;
 
-import com.google.gson.annotations.Expose;
-
 public class FavouriteRestaurants {
-    @Expose
-    private int zomatoResId;
+
+    private int zomato_res_id;
 
     public String getZomatoResId() {
-        return "" + zomatoResId;
+        return "" + zomato_res_id;
     }
 
-    public void setZomatoResId(int zomatoResId) {
-        this.zomatoResId = zomatoResId;
+    public void setZomatoResId(int zomato_res_id) {
+        this.zomato_res_id = zomato_res_id;
     }
 }

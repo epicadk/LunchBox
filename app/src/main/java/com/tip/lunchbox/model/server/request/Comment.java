@@ -8,12 +8,12 @@ public class Comment {
     @Expose
     private int rating;
     @Expose
-    private int zomatoResId;
+    private int zomato_res_id;
 
-    public Comment(String comment, int rating, String zomatoResId) {
+    public Comment(String comment, int rating, String zomato_res_id) {
         this.comment = comment;
         this.rating = rating;
-        this.zomatoResId = Integer.parseInt(zomatoResId);
+        this.zomato_res_id = Integer.parseInt(zomato_res_id);
     }
 
     public String getComment() {
@@ -27,7 +27,7 @@ public class Comment {
 
 
     public String getZomatoResId() {
-        return "" + zomatoResId;
+        return "" + zomato_res_id;
     }
 
 }

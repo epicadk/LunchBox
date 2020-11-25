@@ -2,8 +2,10 @@ package com.tip.lunchbox.model.server.response;
 
 import java.util.List;
 
+// Required for Moshi
+@SuppressWarnings("unused")
 public class CommentsResponseContainer {
-    List<CommentsResponse> comments;
+    private List<CommentsResponse> comments;
 
     public List<CommentsResponse> getComments() {
         return comments;

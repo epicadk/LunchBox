@@ -1,19 +1,16 @@
 package com.tip.lunchbox.model.server.response;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
+// Required for Moshi
+@SuppressWarnings("unused")
 public class CommentsResponse {
-    @SerializedName("_id")
-    @Expose
+    @Json(name = "_id")
     private String id;
-    @Expose
     private Integer rating;
-    @Expose
     private String comment;
-    @Expose
-    private int zomatoResId;
-    @SerializedName("user_name")
+    private int zomato_res_id;
+    @Json(name = "user_name")
     private String author;
 
     public String getId() {
@@ -29,7 +26,7 @@ public class CommentsResponse {
     }
 
     public int getZomatoResId() {
-        return zomatoResId;
+        return zomato_res_id;
     }
 
     public String getAuthor() {
